@@ -4,7 +4,7 @@
 function details_modal_function(id){
   var data={"id":id};
   $.ajax({
-    url:<?=BASEURL;?>+'includes/details_modal.php',
+    url:'/Ecommerce/includes/details_modal.php',
     method:"post",
     data: data,
     success:function(data){
