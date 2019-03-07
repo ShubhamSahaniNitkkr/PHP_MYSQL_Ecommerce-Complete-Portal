@@ -1,0 +1,10 @@
+.card-img-top{
+  height: 12rem;
+}
+
+.theme{
+  border-left:8px solid yellow;
+  background-color:#ffface;
+  color:#6b303091;
+  padding:5px;
+}
