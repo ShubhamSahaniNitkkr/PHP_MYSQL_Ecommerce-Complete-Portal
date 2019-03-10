@@ -3,6 +3,8 @@
 
 <script>
 
+$('#successMessage').delay(2000).fadeOut('slow');
+
 function update_kilo(){
 var qtystring='';
   for(var i=1;i<3;i++)

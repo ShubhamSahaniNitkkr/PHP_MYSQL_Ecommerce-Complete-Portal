@@ -20,7 +20,7 @@ if(isset($_SESSION['SBUser']))
 }
 
 if(isset($_SESSION['success_flash'])){
-  echo '<div class="bg-success"><p class="text-light text-center">'.$_SESSION['success_flash'].'</p></div>';
+  echo '<div class="bg-success" id="successMessage"><p class="text-light text-center">'.$_SESSION['success_flash'].'</p></div>';
   unset($_SESSION['success_flash']);
 }
 
