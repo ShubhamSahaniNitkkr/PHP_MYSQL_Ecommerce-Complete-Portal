@@ -33,7 +33,11 @@ $pquery=mysqli_query($db,$psql);
         </div>
       </li>
       <?php } ?>
+      <li class="nav-item">
+        <a class="nav-link" href="admin/index.php"><i class="fas fa-cogs"></i> Admin</a>
+      </li>
     </ul>
+
 
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Find Products ..." aria-label="Search">
