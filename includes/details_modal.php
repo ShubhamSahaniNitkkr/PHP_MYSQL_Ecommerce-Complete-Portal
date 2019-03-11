@@ -21,6 +21,7 @@ $kilo_array=explode(',',$kilo);
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <span id="modal_errors" class="text-danger"></span>
       <div class="modal-body">
         <div class="col-md-12">
           <div class="card" style="width:100%;">
@@ -54,14 +55,16 @@ $kilo_array=explode(',',$kilo);
           </tbody>
           </table>
 
-        <form class="was-validated" action="add_cart.php" method="post">
-        <div class="form-group">
-        <select class="custom-select" required>
-        <option value="">कितने किलोग्राम </option>
+        <form class="was-validated" action="add_cart.php" method="post" id="add_product_form">
+          <input type="hidden" name="product_id" value="<?=$id;?>">
+          <input type="hidden" name="kilo" value="" id="hkilo">
 
+        <div class="form-group">
+        <select id="kilo" class="custom-select" required>
+        <option value="">कितने किलोग्राम </option>
         <?php
         foreach($kilo_array as $kg){
-          echo '<option value="1">'.$kg.'</option>';
+          echo '<option value="'.$kg.'" data-kg="'.$kg.'">'.$kg.'</option>';
         } ?>
 
         </select>
@@ -75,8 +78,8 @@ $kilo_array=explode(',',$kilo);
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#details-1" name="buy"><i class="fas fa-money-bill-alt"></i> Buy</button>
-        <button type="button" class="btn btn-md btn-warning" name="add_to_cart"> <i class="fas fa-shopping-cart"></i> झोले में डाले </button>
+        <!-- <button type="button" class="btn btn-md btn-success" data-toggle="modal" data-target="#details-1" name="buy"><i class="fas fa-money-bill-alt"></i> Buy</button> -->
+        <button type="button" onclick="add_to_cart();return false;" class="btn btn-md btn-warning" name="add_to_cart"> <i class="fas fa-shopping-bag"></i> झोले में डाले </button>
         <button type="button" class="btn btn-secondary btn-danger" onclick="close_modal()"> <i class="fas fa-times"></i> Close</button>
       </div>
     </div>
@@ -84,6 +87,15 @@ $kilo_array=explode(',',$kilo);
 </div>
 
 <script>
+
+$('#kilo').change(function(){
+  var kilo=$('#kilo option:selected').data("kg");
+  $('#hkilo').val(kilo);
+});
+
+
+
+
 function close_modal()
 {
   $('#details_modal').modal('hide');

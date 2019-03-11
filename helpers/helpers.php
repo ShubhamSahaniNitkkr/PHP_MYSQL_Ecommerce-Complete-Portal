@@ -13,7 +13,7 @@ function sanitize($dirty){
 }
 
 function money($number){
-  return '₹ '.number_format($number,2);
+  return '₹'.number_format((float)$number,2);
 }
 
 function login($user_id){
@@ -58,6 +58,20 @@ function has_permission($permission='admin'){
 
 function pretty_date($date){
   return date("M d , Y h:i A",strtotime($date));
+}
+
+function get_main_category($child_id)
+{
+  global $db;
+  $id=sanitize($child_id);
+  $sql="SELECT p.id AS 'pid' , p.category AS 'parent' ,c.id AS 'cid' , c.category AS 'child'
+  FROM categories c
+  INNER JOIN categories p ON c.parent =p.id
+  WHERE c.id='$id' ";
+
+  $query=mysqli_query($db,$sql);
+  $main_category=mysqli_fetch_assoc($query);
+  return $main_category;
 }
 
  ?>

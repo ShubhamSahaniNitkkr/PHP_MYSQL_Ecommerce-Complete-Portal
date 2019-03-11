@@ -219,7 +219,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
         <?php for($i=1;$i<3;$i++){ ?>
           <div class="form-group">
             <label for="quantity">Quantity</label>
-            <input type="number" name="qty<?=$i;?>" id="qty<?=$i;?>" class="form-control">
+            <input type="number" min="0" name="qty<?=$i;?>" id="qty<?=$i;?>" class="form-control">
           </div>
 
         <?php } ?>

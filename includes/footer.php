@@ -1,6 +1,8 @@
 <footer class="text-center theme fixed-bottom" id="footer">&copy; copyright 2019 मेरी local दुकान</footer>
 
 <script>
+$('#successMessage').delay(2000).fadeOut('slow');
+
 function details_modal_function(id){
   var data={"id":id};
   $.ajax({
@@ -15,6 +17,44 @@ function details_modal_function(id){
       alert("something not working");
     }
   });
+}
+
+function update_cart(mod, edit_i ,edit_kil){
+  var data={'mode':mod ,'edit_id':edit_i ,'edit_kilo':edit_kil };
+  $.ajax({
+    url :'/Ecommerce/admin/parser/checkout.php',
+    method:'post',
+    data:data,
+    success : function(data){
+      location.reload();
+    },
+    error : function(){ alert('something went wrong !'); }
+  });
+}
+
+function add_to_cart() {
+  $('#modal_errors').html("");
+   var kilo=$('#hkilo').val();
+   var error='';
+   var data=$('#add_product_form').serialize();
+
+   if(kilo =='')
+   {
+     error+='<p class="text-danger text-center">You must Choose Kilogram !</p>';
+     $('#modal_errors').html(error);
+     return;
+   }
+   else {
+     $.ajax({
+       url :'/Ecommerce/admin/parser/add_cart.php',
+       method:"post",
+       data: data,
+       success : function(){
+         location.reload();
+       },
+       error : function(){ alert('something went wrong !'); }
+     });
+   }
 }
 </script>
 

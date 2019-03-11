@@ -19,4 +19,4 @@
 
     <title> मेरी local दुकान | Admin Panel </title>
   </head>
-  <body>
+  <body background="medias/backg.png">

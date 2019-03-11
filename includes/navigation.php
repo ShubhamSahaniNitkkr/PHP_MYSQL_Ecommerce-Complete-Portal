@@ -28,7 +28,7 @@ $pquery=mysqli_query($db,$psql);
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <?php while($child= mysqli_fetch_assoc($cquery)){ ?>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#"><?= $child['category']; ?></a>
+            <a class="dropdown-item" href="category.php?cat=<?=$child['id'];?>"><?= $child['category']; ?></a>
           <?php } ?>
         </div>
       </li>
@@ -37,13 +37,13 @@ $pquery=mysqli_query($db,$psql);
         <a class="nav-link" href="admin/index.php"><i class="fas fa-cogs"></i> Admin</a>
       </li>
     </ul>
-
-
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Find Products ..." aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
       <button class="btn btn-outline-info mx-2 my-sm-0" data-toggle="modal" data-target="#login_sign_up"> <i class="fas fa-user"></i> </button>
-
+      <div class="nav-item">
+        <a class="nav-link btn btn-warning" href="cart.php"><i class="fas fa-shopping-bag"></i> Bag </a>
+      </div>
   </div>
 </nav>
