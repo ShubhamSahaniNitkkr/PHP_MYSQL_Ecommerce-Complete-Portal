@@ -77,6 +77,7 @@ function check_address(){
     'city' : $('#city').val(),
     'state' : $('#state').val(),
     'zip' : $('#zip').val(),
+    'total' : $('#total').val(),
   };
 
   $.ajax({
@@ -102,7 +103,6 @@ function check_address(){
 }
 
 </script>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

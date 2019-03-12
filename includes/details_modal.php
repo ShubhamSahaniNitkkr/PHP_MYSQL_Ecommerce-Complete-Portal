@@ -8,7 +8,7 @@ $dquery=mysqli_query($db,$dsql);
 
 $product=mysqli_fetch_assoc($dquery);
 $kilo=$product['kilos'];
-$kilo_array=explode(',',$kilo);
+// $kilo_array=explode(',',$kilo);
  ?>
 
 <?php ob_start(); ?>
@@ -63,8 +63,8 @@ $kilo_array=explode(',',$kilo);
         <select id="kilo" class="custom-select" required>
         <option value="">कितने किलोग्राम </option>
         <?php
-        foreach($kilo_array as $kg){
-          echo '<option value="'.$kg.'" data-kg="'.$kg.'">'.$kg.'</option>';
+        for($i=1;$i<=$kilo;$i++){
+          echo '<option value="'.$i.'" data-kg="'.$i.'">'.$i.'</option>';
         } ?>
 
         </select>

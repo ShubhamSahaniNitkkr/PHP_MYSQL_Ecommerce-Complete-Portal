@@ -2,7 +2,7 @@
 <?php include 'includes/head.php'; ?>
 <?php include 'includes/navigation.php'; ?>
 <?php
-
+$i=0;
 if($cart_id!='')
 {
   $cart_item_sql="SELECT * FROM cart WHERE id ='{$cart_id}'";
@@ -25,12 +25,13 @@ if($cart_id!='')
       Your shopping cart is empty ! <i class="fas fa-cat"></i>
     </div>
     <?php }else{ ?>
-      <table class="table table-bordered table-hover table-responsive-lg">
+  <table class="table table-bordered table-hover table-responsive-lg">
   <thead class="thead-light">
     <tr>
       <th scope="col">#</th>
       <th scope="col">Item</th>
       <th scope="col">Price</th>
+      <th scope="col">Paid</th>
       <th scope="col">Quantity</th>
       <th scope="col">Sub total</th>
     </tr>
@@ -50,6 +51,11 @@ if($cart_id!='')
       <td><?=$i;?></td>
       <td><?=$productresult['title'];?></td>
       <td><?=money(trim($productresult['price']));?></td>
+      <?if($cart_item_result['paid']>0){?>
+        <td> Yes </td>
+      <?php }else{ ?>
+        <td> No </td>
+        <?php } ?>
       <td class="clearfix text-center">
         <button type="button" class="btn btn-sm btn-outline-danger float-left"  name="button" onclick="update_cart('removeone','<?=$productresult['id']?>','<?=$cArray;?>');return false;"><i class="fas fa-minus"></i></button>
          <?=$cArray;?>
@@ -61,6 +67,7 @@ if($cart_id!='')
       </td>
       <?php $m=money($cArray * $productresult['price']); ?>
       <td><?=$m;?></td>
+
     </tr>
     <?php
     $i++;
@@ -69,6 +76,7 @@ if($cart_id!='')
     $total+=$m;
 } ?>
 <tr>
+  <td></td>
   <td></td>
   <td></td>
   <td></td>
@@ -85,6 +93,10 @@ if($cart_id!='')
 
     <?php } ?>
 </div>
+<!--
+<script>
+$('#cart_number').html("<?=$i-1;?>");
+</script> -->
 
 <!-- Button trigger modal -->
 
@@ -105,42 +117,44 @@ if($cart_id!='')
           <span class="bg-danger" id="payment-errors"></span>
           <div id="step1" style="display:block;">
 
+            <input type="text" class="form-control d-none" id="total"  name="total" value="<?=$total?>">
+
             <div class="form-row">
             <div class="form-group col-md-6">
             <label for="inputPassword4">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Full Name">
+            <input type="text" class="form-control" id="name"  name="name" placeholder="Full Name">
             </div>
 
             <div class="form-group col-md-6">
             <label for="Email">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Email">
+            <input type="email" class="form-control" id="email"  name="email" placeholder="Email">
             </div>
 
             </div>
 
             <div class="form-group">
             <label for="inputAddress">Address</label>
-            <input type="text" class="form-control" id="address1" placeholder="1234 Main St">
+            <input type="text" class="form-control" id="address1"  name="address1" placeholder="1234 Main St">
             </div>
             <div class="form-group">
             <label for="inputAddress2">Address 2</label>
-            <input type="text" class="form-control" id="address2" placeholder="Apartment, studio, or floor">
+            <input type="text" class="form-control" id="address2"  name="address2" placeholder="Apartment, studio, or floor">
             </div>
             <div class="form-row">
             <div class="form-group col-md-6">
             <label for="inputCity">City</label>
-            <input type="text" class="form-control" id="city">
+            <input type="text" class="form-control"  name="city" id="city">
             </div>
             <div class="form-group col-md-4">
             <label for="inputState">State</label>
-            <select id="state" class="form-control">
+            <select id="state"  name="state" class="form-control">
             <option selected>Choose...</option>
             <option>...</option>
             </select>
             </div>
             <div class="form-group col-md-2">
             <label for="inputZip">Zip</label>
-            <input type="text" class="form-control" id="zip">
+            <input type="text" class="form-control" id="zip" name="zip" >
             </div>
             </div>
 
@@ -191,11 +205,11 @@ if($cart_id!='')
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" onclick="check_address();"  id="next_button">Next <i class="fas fa-arrow-alt-circle-right"></i> </button>
-        <button type="button" class="btn btn-info" onclick="back_address();"  id="back_button" style="display:none;">Back <i class="fas fa-arrow-alt-circle-left"></i> </button>
-        <button type="submit" class="btn btn-success " id="check_out_button" style="display:none;"> <i class="fas fa-hand-holding-usd"></i> Checkout <i class="fas fa-arrow-alt-circle-right"></i> </button>
+        <button type="button" class="btn btn-info" onclick="back_address();"  id="back_button" style="display:none;"> <i class="fas fa-arrow-alt-circle-left"></i> Back </button>
+        <button type="submit" class="btn btn-success " id="check_out_button" style="display:none;"> <i class="fas fa-hand-holding-usd"></i> Checkout </button>
       </div>
     </form>
-      
+
     </div>
   </div>
 </div>

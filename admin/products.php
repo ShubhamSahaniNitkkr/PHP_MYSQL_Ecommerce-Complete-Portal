@@ -176,13 +176,13 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 
   <div class="form-group">
     <label for="Quantity">Change Quantity :</label>
-    <button class="btn btn-sm btn-outline-info form-control" onclick="$('#sizemodal').modal('toggle');return false;">Change Quantity</button>
+    <input type="text" id="qty" name="Qtypreview" class="form-control" value="<?=$Qtypreview;?>">
   </div>
 
-  <div class="form-group">
+  <!-- <div class="form-group">
     <label for="Qtypreview">Quantity Preview^ : </label>
     <input type="text" id="qty_field" name="Qtypreview" class="form-control" value="<?=$Qtypreview;?>" readonly>
-  </div>
+  </div> -->
 
   <div class="form-group">
     <?php if($saved_image!=''){ ?>

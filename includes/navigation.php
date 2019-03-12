@@ -45,7 +45,7 @@ $pquery=mysqli_query($db,$psql);
         <button class="btn btn-outline-info mx-2 my-sm-0" data-toggle="modal" data-target="#login_sign_up"> <i class="fas fa-user"></i><span>.</span></button>
       </div>
       <div class="nav-item">
-        <a class="nav-link btn btn-warning" href="cart.php"><i class="fas fa-shopping-bag"></i> Bag </a>
+        <a class="nav-link btn btn-warning" href="cart.php" ><i class="fas fa-shopping-bag"></i> Bag <span id="cart_number"></span> </a>
       </div>
   </div>
 </nav>
