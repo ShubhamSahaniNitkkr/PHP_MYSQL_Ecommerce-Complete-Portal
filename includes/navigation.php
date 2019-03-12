@@ -41,7 +41,9 @@ $pquery=mysqli_query($db,$psql);
         <input class="form-control mr-sm-2" type="search" placeholder="Find Products ..." aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
-      <button class="btn btn-outline-info mx-2 my-sm-0" data-toggle="modal" data-target="#login_sign_up"> <i class="fas fa-user"></i> </button>
+      <div class="nav-item">
+        <button class="btn btn-outline-info mx-2 my-sm-0" data-toggle="modal" data-target="#login_sign_up"> <i class="fas fa-user"></i><span>.</span></button>
+      </div>
       <div class="nav-item">
         <a class="nav-link btn btn-warning" href="cart.php"><i class="fas fa-shopping-bag"></i> Bag </a>
       </div>

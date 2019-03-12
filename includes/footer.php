@@ -1,7 +1,7 @@
 <footer class="text-center theme fixed-bottom" id="footer">&copy; copyright 2019 मेरी local दुकान</footer>
 
 <script>
-$('#successMessage').delay(2000).fadeOut('slow');
+$('#successMessage').delay(1000).fadeOut('slow');
 
 function details_modal_function(id){
   var data={"id":id};
@@ -56,6 +56,51 @@ function add_to_cart() {
      });
    }
 }
+
+function back_address(){
+  $('#payment-errors').html("");
+  $('#step1').css("display","block");
+  $('#step2').css("display","none");
+  $('#next_button').css("display","inline-block");
+  $('#back_button').css("display","none");
+  $('#check_out_button').css("display","none");
+  $('#shipping_title').html("Shipping Address");
+}
+
+
+function check_address(){
+  var data={
+    'name' : $('#name').val(),
+    'email' : $('#email').val(),
+    'address1' : $('#address1').val(),
+    'address2' : $('#address2').val(),
+    'city' : $('#city').val(),
+    'state' : $('#state').val(),
+    'zip' : $('#zip').val(),
+  };
+
+  $.ajax({
+    url :'/Ecommerce/admin/parser/check_address.php',
+    method:'post',
+    data:data,
+    success : function(data){
+      if(data!='passed'){
+        $('#payment-errors').html(data);
+      }
+      if(data == 'passed'){
+        $('#payment-errors').html("");
+        $('#step1').css("display","none");
+        $('#step2').css("display","block");
+        $('#next_button').css("display","none");
+        $('#back_button').css("display","inline-block");
+        $('#check_out_button').css("display","inline-block");
+        $('#shipping_title').html("Card Details");
+      }
+    },
+    error : function(){ alert('something went wrong !'); }
+  });
+}
+
 </script>
 
 

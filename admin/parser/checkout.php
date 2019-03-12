@@ -47,7 +47,7 @@ if(!empty($updated_items)){
 }
 
 if(empty($updated_items)){
-  $updatesql="DELETE FROM cart SET WHERE id ='{$cart_id}'";
+  $updatesql="DELETE FROM cart SET WHERE id ='{$cart_id}' ";
   mysqli_query($db,$updatesql);
   setcookie(CART_COOKIE,'',1,"/",$doamin,false);
 }

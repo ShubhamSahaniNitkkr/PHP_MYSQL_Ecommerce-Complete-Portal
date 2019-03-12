@@ -1,7 +1,7 @@
 <?php include 'core/init.php'; ?>
 <?php include 'includes/head.php'; ?>
 <?php include 'includes/navigation.php'; ?>
-<?php include 'includes/jumbotron.php';
+<?php
 
 if($cart_id!='')
 {
@@ -17,7 +17,7 @@ if($cart_id!='')
 }
 ?>
 
-<div class="container">
+<div class="container py-4">
     <h2 class="text-center">My Shopping Cart</h2>
     <hr>
     <?php if($cart_id==''){ ?>
@@ -25,7 +25,7 @@ if($cart_id!='')
       Your shopping cart is empty ! <i class="fas fa-cat"></i>
     </div>
     <?php }else{ ?>
-      <table class="table table-bordered table-hover">
+      <table class="table table-bordered table-hover table-responsive-lg">
   <thead class="thead-light">
     <tr>
       <th scope="col">#</th>
@@ -49,7 +49,7 @@ if($cart_id!='')
     <tr>
       <td><?=$i;?></td>
       <td><?=$productresult['title'];?></td>
-      <td><?=money($productresult['price']);?></td>
+      <td><?=money(trim($productresult['price']));?></td>
       <td class="clearfix text-center">
         <button type="button" class="btn btn-sm btn-outline-danger float-left"  name="button" onclick="update_cart('removeone','<?=$productresult['id']?>','<?=$cArray;?>');return false;"><i class="fas fa-minus"></i></button>
          <?=$cArray;?>
@@ -91,25 +91,121 @@ if($cart_id!='')
 
 <!-- Modal -->
 <div class="modal fade" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <h5 class="modal-title" id="shipping_title">Shipping Address <i class="fas fa-truck"></i></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+
+        <form action="shipping.php" method="post" id="payment_form">
+          <span class="bg-danger" id="payment-errors"></span>
+          <div id="step1" style="display:block;">
+
+            <div class="form-row">
+            <div class="form-group col-md-6">
+            <label for="inputPassword4">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Full Name">
+            </div>
+
+            <div class="form-group col-md-6">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+
+            </div>
+
+            <div class="form-group">
+            <label for="inputAddress">Address</label>
+            <input type="text" class="form-control" id="address1" placeholder="1234 Main St">
+            </div>
+            <div class="form-group">
+            <label for="inputAddress2">Address 2</label>
+            <input type="text" class="form-control" id="address2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="form-row">
+            <div class="form-group col-md-6">
+            <label for="inputCity">City</label>
+            <input type="text" class="form-control" id="city">
+            </div>
+            <div class="form-group col-md-4">
+            <label for="inputState">State</label>
+            <select id="state" class="form-control">
+            <option selected>Choose...</option>
+            <option>...</option>
+            </select>
+            </div>
+            <div class="form-group col-md-2">
+            <label for="inputZip">Zip</label>
+            <input type="text" class="form-control" id="zip">
+            </div>
+            </div>
+
+          </div>
+
+          <div id="step2" style="display:none;">
+            <div class="form-row">
+            <div class="form-group col-md-3">
+            <label for="name">Name on card :</label>
+            <input type="text" class="form-control" id="name">
+            </div>
+
+            <div class="form-group col-md-3">
+            <label for="number">Card Number:</label>
+            <input type="text" class="form-control" id="number">
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="number">CVC:</label>
+            <input type="text" class="form-control" id="cvc">
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="expire-month">Expire Month</label>
+            <select id="exp-month" class="form-control">
+              <option></option>
+              <?php for($i=1; $i<13; $i++) {?>
+            <option value="<?=$i?>"><?=$i?></option>
+              <?php } ?>
+            </select>
+            </div>
+
+            <div class="form-group col-md-2">
+            <label for="expire-year">Expire Year</label>
+            <select id="exp-year" class="form-control">
+              <option></option>
+              <?php $yr=date("Y"); ?>
+              <?php for($i=1; $i<13; $i++) {?>
+            <option value="<?=$yr+$i?>"><?=$yr+$i?></option>
+              <?php } ?>
+            </select>
+            </div>
+
+          </div>
+          </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" onclick="check_address();"  id="next_button">Next <i class="fas fa-arrow-alt-circle-right"></i> </button>
+        <button type="button" class="btn btn-info" onclick="back_address();"  id="back_button" style="display:none;">Back <i class="fas fa-arrow-alt-circle-left"></i> </button>
+        <button type="submit" class="btn btn-success " id="check_out_button" style="display:none;"> <i class="fas fa-hand-holding-usd"></i> Checkout <i class="fas fa-arrow-alt-circle-right"></i> </button>
       </div>
+    </form>
+      
     </div>
   </div>
 </div>
 
+
+<script>
+
+
+
+</script>
 
 
 <?php include 'includes/footer.php'; ?>
