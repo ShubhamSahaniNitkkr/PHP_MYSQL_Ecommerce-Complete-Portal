@@ -1,4 +1,4 @@
-<h3 class="text-center">Shopping Cart</h3>
+<h5 class="text-center">Shopping Cart</h5>
 <div>
 <?php if(empty($cart_id)){ ?>
   <p>Your Shopping cart is empty!</p>
