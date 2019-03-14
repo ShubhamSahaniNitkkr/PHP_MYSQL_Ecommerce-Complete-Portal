@@ -23,13 +23,13 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
   $main_menu_query=mysqli_query($db,$main_menu_sql);
 
   $title=((isset($_POST['title']) && $_POST['title']!='')?sanitize($_POST['title']):'');
-  $shop=((isset($_POST['shop']) && !empty($_POST['shop']))?sanitize($_POST['shop']):'');
-  $sub_category=((isset($_POST['sub_category']) && !empty($_POST['sub_category']))?sanitize($_POST['sub_category']):'');
-  $categories=((isset($_POST['category']) && !empty($_POST['category']))?sanitize($_POST['category']):'');
-  $price=((isset($_POST['price']) && !empty($_POST['price']))?sanitize($_POST['price']):'');
-  $list_price=((isset($_POST['list_price']) && !empty($_POST['list_price']))?sanitize($_POST['list_price']):'');
-  $Qtypreview=((isset($_POST['Qtypreview']) && !empty($_POST['Qtypreview']))?sanitize($_POST['Qtypreview']):'');
-  $description=((isset($_POST['description']) && !empty($_POST['description']))?sanitize($_POST['description']):'');
+  $shop=((isset($_POST['shop']) && $_POST['shop']!='')?sanitize($_POST['shop']):'');
+  $sub_category=((isset($_POST['sub_category']) && $_POST['sub_category']!='')?sanitize($_POST['sub_category']):'');
+  $categories=((isset($_POST['category']) && $_POST['category']!='')?sanitize($_POST['category']):'');
+  $price=((isset($_POST['price']) && $_POST['price']!='')?sanitize($_POST['price']):'');
+  $list_price=((isset($_POST['list_price']) && $_POST['list_price']!='')?sanitize($_POST['list_price']):'');
+  $Qtypreview=((isset($_POST['Qtypreview']) && $_POST['Qtypreview']!='')?sanitize($_POST['Qtypreview']):'');
+  $description=((isset($_POST['description']) && $_POST['description']!='')?sanitize($_POST['description']):'');
   $saved_image='';
 
   if(isset($_GET['edit'])){
@@ -38,9 +38,13 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
     $fetch_product_query=mysqli_query($db,$fetchproductresultsql);
     $productforedit=mysqli_fetch_assoc($fetch_product_query);
     if(isset($_GET['delete_image'])){
-      $image_url='../'.$productforedit['image'];
+      $imgi=(int)$_GET['imgi']-1;
+      $images=explode(',',$productforedit['image']);
+      $image_url='../'.$images[$imgi];
       unlink($image_url);
-      $clearimagesql="UPDATE products SET image='' WHERE id = '$edit_id'";
+      unset($images[$imgi]);
+      $newimagestring=implode(',',$images);
+      $clearimagesql="UPDATE products SET image='{$newimagestring}' WHERE id = '$edit_id'";
       $clearimagequery=mysqli_query($db,$clearimagesql);
       header('Location:products.php?edit='.$edit_id);
     }
@@ -70,6 +74,10 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
     $tmploc='';
     $uploadpath='';
     $required=array('title','shop','price','list_price','category','sub_category','Qtypreview');
+    $allowed=array('png','jpeg','jpg','gif');
+    $photoarray=array();
+    $tmploc=array();
+    $uploadpath=array();
     foreach ($required as $field){
       if($_POST[$field]==''){
         $errors[]='All Fields with ^ is Required !';
@@ -77,27 +85,35 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
       }
     }
 
+
     if(!empty($_FILES)){
+      $photocount=count($_FILES['photo']['name']);
       $photo = $_FILES['photo'];
       $photo_name=$photo['name'];
-      if($photo_name!=NULL)
+
+      if($photocount >0)
       {
-        $nameArray=explode('.',$photo_name);
-        $filename=$nameArray[0];
-        $fileext=$nameArray[1];
-        $mime = explode('/',$photo['type']);
+        for($i=0;$i<$photocount;$i++){
+          $name=$_FILES['photo']['name'][$i];
+          $photoarray=explode('.',$name);
+          $filename=$photoarray[0];
+          $fileext=$photoarray[1];
+        $mime = explode('/',$_FILES['photo']['type'][$i]);
         $mimetype=$mime[0];
         $mimeext=$mime[1];
-        $tmploc=$photo['tmp_name'];
-        $filesize=$photo['size'];
+        $tmploc[]=$_FILES['photo']['tmp_name'][$i];
+        $filesize=$_FILES['photo']['size'][$i];
+
+        $uploadname=md5(microtime().$i).'.'.$fileext;
+        $uploadpath[]=BASEURL.'medias/products/'.$uploadname;
+        if($i!=0){
+          $dbpath .= ',';
+        }
+        $dbpath.='medias/products/'.$uploadname;
+
         if($mimetype!='image'){
           $errors[]='The File must be an image !';
         }
-        $allowed=array('png','jpeg','jpg','gif');
-
-        $uploadname=md5(microtime()).'.'.$fileext;
-        $uploadpath=BASEURL.'medias/products/'.$uploadname;
-        $dbpath='medias/products/'.$uploadname;
 
         if(!in_array($fileext,$allowed)){
           $errors[]='Allowed types are png , jpeg , jpg , gif !';
@@ -105,6 +121,8 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 
         if($filesize>15000000){
           $errors[]='The File must be under 15 mb!';
+        }
+
         }
       }
     }
@@ -114,7 +132,11 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
       echo display_errors($errors);
     }
     else {
-      move_uploaded_file($tmploc,$uploadpath);
+        if($photocount > 0){
+          for($i=0 ; $i<$photocount ;$i++){
+            move_uploaded_file($tmploc[$i],$uploadpath[$i]);
+          }
+        }
       $insertproductsql="INSERT INTO products (`title`,`price`,`list_price`,`shops`,`categories`,`image`,`description`,`kilos`)
       VALUES ('$title','$price','$list_price','$shop','$sub_category','$dbpath','$description','$kilo_string')";
       if(isset($_GET['edit']))
@@ -132,6 +154,22 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
   <div class="col-md-12">
   <h2 class="text-center"><?=((isset($_GET['edit']))?'Edit':'Add')?> Product</h2>
   <form action="products.php?<?=((isset($_GET['edit']))?'edit='.$edit_id:'add=1')?>" method="post" enctype="multipart/form-data">
+
+  <div class="form-group">
+
+  <?php if($saved_image!=''){ ?>
+  <?php
+  $imgi=1;
+  $images=explode(',',$saved_image);
+  foreach ($images as $image){ ?>
+    <img src="<?='../'.$image;?>" alt="<?=$title;?>" class="img-thumbnail" style="height:auto;width: 200px;">
+    <a href="products.php?delete_image=1&edit=<?=$edit_id?>&imgi=<?=$imgi;?>" class="btn btn-danger">Delete Image</a>
+    <?php $imgi++; }}else{ ?>
+    <label for="photo">Product Photo :</label>
+    <input type="file" name="photo[]" id="photo" class="form-control" multiple required>
+    <?php } ?>
+
+  </div>
 
   <div class="form-group">
   <label for="title">Title^</label>
@@ -184,15 +222,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
     <input type="text" id="qty_field" name="Qtypreview" class="form-control" value="<?=$Qtypreview;?>" readonly>
   </div> -->
 
-  <div class="form-group">
-    <?php if($saved_image!=''){ ?>
-      <img src="<?='../'.$saved_image;?>" alt="<?=$title;?>" class="img-thumbnail" style="height:auto;width: 200px;">
-      <a href="products.php?delete_image=1&edit=<?=$edit_id?>" class="btn btn-danger">Delete Image</a>
-    <?php }else{ ?>
-    <label for="photo">Product Photo :</label>
-    <input type="file" name="photo" id="photo" class="form-control">
-    <?php } ?>
-  </div>
+
 
   <div class="form-group">
     <label for="description">Description : </label>

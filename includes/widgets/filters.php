@@ -32,6 +32,7 @@
   <?php while($shops = mysqli_fetch_assoc($brandquery)){ ?>
     <input type="radio" name="shop" value="<?=$shops['id']?>" <?=(($b == $shops['id'])?' checked':'');?>> <?=$shops['name']?><br>
    <?php } ?>
+   <br>
    <input type="submit" class="btn btn-info btn-sm" value="Search">
 </form>
 <?php

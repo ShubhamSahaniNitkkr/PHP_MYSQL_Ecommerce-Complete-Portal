@@ -10,7 +10,7 @@ $pquery=mysqli_query($db,$psql);
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="index.php">मेरी local दुकान</a>
+  <a class="navbar-brand" href="index.php"> <i class="fas fa-user-lock"></i> मेरी local दुकान</a>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -34,7 +34,7 @@ $pquery=mysqli_query($db,$psql);
       </li>
       <?php } ?>
       <li class="nav-item">
-        <a class="nav-link" href="admin/index.php"><i class="fas fa-cogs"></i> Admin</a>
+        <a class="nav-link" href="admin/index.php"> Admin</a>
       </li>
     </ul>
       <form class="form-inline my-2 my-lg-0">

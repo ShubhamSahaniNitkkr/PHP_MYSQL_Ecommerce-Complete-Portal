@@ -9,6 +9,7 @@ $city=sanitize($_POST['city']);
 $state=sanitize($_POST['state']);
 $zip=sanitize($_POST['zip']);
 $total=sanitize($_POST['total']);
+$itemcount=sanitize($_POST['tcount']);
 
 
 // adjust products inventory
@@ -41,8 +42,8 @@ foreach ($items as $item) {
 $upadte_paid_sql="UPDATE cart SET paid =1 WHERE id ='{$cart_id}'";
 mysqli_query($db,$upadte_paid_sql);
 
-$insertshippingsql="INSERT INTO transaction (`cartid`,`fullname`,`email`,`street`,`street2`,`city`,`state`,`zipcode`)
-VALUES ('$cart_id','$full_name','$email','$address1','$address2','$city','$state','$zip')";
+$insertshippingsql="INSERT INTO transaction (`cartid`,`fullname`,`email`,`street`,`street2`,`city`,`state`,`zipcode`,`total`,`description`)
+VALUES ('$cart_id','$full_name','$email','$address1','$address2','$city','$state','$zip','$total','$itemcount')";
 $yo=mysqli_query($db,$insertshippingsql);
 
  $doamin=($_SERVER['HTTP_HOST'] != 'localhost')?'.'.$_SERVER['HTTP_HOST']:false;

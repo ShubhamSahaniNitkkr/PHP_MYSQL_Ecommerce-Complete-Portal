@@ -24,8 +24,34 @@ $kilo=$product['kilos'];
       <span id="modal_errors" class="text-danger"></span>
       <div class="modal-body">
         <div class="col-md-12">
+
+          <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
+          <div class="carousel-inner" role="listbox">
+            <?php $photos=explode(',',$product['image']);?>
+              <div class="carousel-item active">
+              <img class="d-block w-100" height="300px;" src="<?=$photos[0];?>" alt="<?=$product['title'];?>">
+              </div>
+              <?php $i=0; ?>
+            <?php foreach ($photos as $photo){?>
+
+              <?php if($i>0){?>
+              <div class="carousel-item">
+              <img class="d-block w-100" height="300px;" src="<?=$photo;?>" alt="<?=$product['title'];?>">
+              </div>
+              <?php }else{$i++;} ?>
+            <?php } ?>
+          </div>
+          <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+          </a>
+          </div>
+
           <div class="card" style="width:100%;">
-          <img class="card-img-top" src="<?= $product['image'];?>" alt="<?= $product['title'];?>">
           <div class="card-body">
           <h5 class="card-title">दुकानें जहां <?= $product['title'];?> की कीमत <?= $product['price'];?>/kg है</h5>
           <p class="clearfix"><span class="list-price text-danger float-left"> <s>Rs: <?= $product['list_price']; ?> kg</s> </span> <span class="price text-success float-right">Rs: <?= $product['price']; ?> kg</span></p>

@@ -71,6 +71,7 @@ if($cart_id!='')
     </tr>
     <?php
     $i++;
+    $item_count++;
     $sub_total+=$cArray;
     $m = trim($m,"₹");
     $total+=$m;
@@ -106,7 +107,7 @@ $('#cart_number').html("<?=$i-1;?>");
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="shipping_title">Shipping Address <i class="fas fa-truck"></i></h5>
+        <h5 class="modal-title" id="shipping_title">Shipping Address <i class="fas fa-shipping-fast"></i></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -114,10 +115,12 @@ $('#cart_number').html("<?=$i-1;?>");
       <div class="modal-body">
 
         <form action="shipping.php" method="post" id="payment_form">
+
           <span class="bg-danger" id="payment-errors"></span>
           <div id="step1" style="display:block;">
 
             <input type="text" class="form-control d-none" id="total"  name="total" value="<?=$total?>">
+            <input type="text" class="form-control d-none" id="totalcount"  name="tcount" value="<?=$item_count?>">
 
             <div class="form-row">
             <div class="form-group col-md-6">
